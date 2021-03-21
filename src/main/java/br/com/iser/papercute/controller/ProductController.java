@@ -6,10 +6,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.iser.papercute.constant.Path;
 import br.com.iser.papercute.dto.ProductDTO;
 import br.com.iser.papercute.entity.Product;
 import br.com.iser.papercute.service.ProductService;
@@ -22,7 +25,6 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	@Autowired
 	private ModelMapper mapper;
 
 	@GetMapping
@@ -31,18 +33,6 @@ public class ProductController {
 		log.info("ProductController.getProduct - Start");
 
 		List<Product> response = this.productService.getAllProducts();
-
-		log.info("ProductController.getProduct - End - ProductDTO: {}", response);
-
-		return ResponseEntity.status(HttpStatus.OK).body(response);
-	}
-
-	@GetMapping
-	public ResponseEntity<ProductDTO> getProduct(Long id) {
-
-		log.info("ProductController.getProduct - Start - Long: {}", id);
-
-		ProductDTO response = this.productService.getProduct(id);
 
 		log.info("ProductController.getProduct - End - ProductDTO: {}", response);
 
@@ -62,6 +52,40 @@ public class ProductController {
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
-	
-	
+
+	@GetMapping(Path.ID_PRODUCT)
+	public ResponseEntity<ProductDTO> getProduct(Long id) {
+
+		log.info("ProductController.getProduct - Start - Long: {}", id);
+
+		ProductDTO response = this.productService.getProduct(id);
+
+		log.info("ProductController.getProduct - End - ProductDTO: {}", response);
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@PutMapping(Path.ID_PRODUCT)
+	public ResponseEntity<ProductDTO> updateProduct(Long id, ProductDTO dto) {
+
+		log.info("ProductController.getProduct - Start - Long: {} - ProductDTO: {}", id, dto);
+
+		ProductDTO response = this.productService.getProduct(id);
+
+		log.info("ProductController.getProduct - End - ProductDTO: {}", response);
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
+
+	@DeleteMapping(Path.ID_PRODUCT)
+	public ResponseEntity<String> deleteProduct(Long id) {
+
+		log.info("ProductController.getProduct - Start - Long: {}", id);
+
+		String response = this.productService.deleteProduct(id);
+
+		log.info("ProductController.getProduct - End - String: {}", response);
+
+		return ResponseEntity.status(HttpStatus.OK).body(response);
+	}
 }
